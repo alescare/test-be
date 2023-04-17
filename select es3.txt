@@ -1,0 +1,8 @@
+SELECT
+  utente,
+  YEAR(data_vendita) AS anno,
+  SUM(importo) AS tot_vendite,
+  (SUM(importo) - LAG(SUM(importo)) OVER (PARTITION BY user ORDER BY YEAR(data_vendita))) AS inc_dec
+FROM vendite
+GROUP BY user, YEAR(data_vendita)
+ORDER BY user, anno
